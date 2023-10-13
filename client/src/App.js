@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import io from "socket.io-client";
+import Chat from "./Chat";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -11,6 +12,9 @@ function App() {
   const joinRoom = () => {
     /*It establishes a connection between the user just 
     enter the web and the socket.io room they want to enter */
+    if (userName !== "" && room !== "") {
+      socket.emit("join_room", room);
+    }
   };
 
   return (
@@ -24,7 +28,7 @@ function App() {
           console.log(userName);
         }}
       />
-      <br />
+
       <input
         type="text"
         placeholder="Room ID"
@@ -33,8 +37,9 @@ function App() {
           console.log(room);
         }}
       />
-      <br />
-      <button>Join the room</button>
+
+      <button onClick={joinRoom}>Join the room</button>
+      <Chat socket={socket} username={userName} room={room} />
     </div>
   );
 }
