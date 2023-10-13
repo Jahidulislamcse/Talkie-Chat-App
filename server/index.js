@@ -16,8 +16,17 @@ const io = new Server(server, {
     /*To tell socket.io that it is okay to accept socket communication with this url ,
         Telling this url the server which url/server is gonna be calling
          to socket.io server*/
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST"],
   },
+});
+
+io.on("connection", (socket) => {
+  /*Detect if someone connect to socket.io server*/
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
 });
 
 server.listen(3001, () => {
