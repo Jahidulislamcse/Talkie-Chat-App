@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const Chat = ({ socket, username, room }) => {
   const [lastMessage, setLastMessage] = useState("");
@@ -13,14 +14,12 @@ const Chat = ({ socket, username, room }) => {
         time:
           new Date(Date.now()).getHours() +
           ":" +
-          new Date(Date.now()).getMinutes() +
-          ":" +
-          new Date(Date.now()).getSeconds(),
+          new Date(Date.now()).getMinutes(),
       };
       /* We need to emit socket message here and send these info */
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
-      // setLastMessage("");
+      setLastMessage("");
     }
   };
 
@@ -41,30 +40,39 @@ const Chat = ({ socket, username, room }) => {
       </div>
 
       <div className="chat-body">
-        {messageList.map((messageContent) => {
-          return (
-            <div className="message">
-              <div>
-                <div className="message-content">
-                  <p>{messageContent.message}</p>;
-                </div>
-                <div className="message-meta">
-                  <p>{messageContent.time}</p>
-                  <p>{messageContent.sender}</p>
+        <ScrollToBottom className="message-container">
+          {messageList.map((messageContent) => {
+            return (
+              <div
+                className="message"
+                id={username === messageContent.sender ? "you" : "other"}
+              >
+                <div>
+                  <div className="message-content">
+                    <p>{messageContent.message}</p>;
+                  </div>
+
+                  <div className="message-meta">
+                    <p id="time">{messageContent.time}</p>
+                    <p id="sender">{messageContent.sender}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </ScrollToBottom>
       </div>
 
       <div className="chat-footer">
         <input
           type="text"
+          value={lastMessage}
           placeholder="Message"
           onChange={(event) => {
             setLastMessage(event.target.value);
-            // console.log(lastMessage);
+          }}
+          onKeyPress={(event) => {
+            event.key === "Enter" && sendMessage();
           }}
         />
         <button onClick={sendMessage}>&#9658;</button>

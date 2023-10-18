@@ -62,7 +62,6 @@ body {
 }
 .chat-window .chat-header {
   height: 45px;
-  /* border-radius: 6px; */
   background: #263238;
   position: relative;
   cursor: pointer;
@@ -127,6 +126,7 @@ body {
 #you .message-meta {
   justify-content: flex-start;
   margin-left: 5px;
+  font-size: 3px;
 }
 
 #other {
@@ -141,11 +141,13 @@ body {
 #other .message-meta {
   justify-content: flex-end;
   margin-right: 5px;
+  font-size: 3px;
 }
 
-.message-meta #author {
+.message-meta #sender {
   margin-left: 10px;
   font-weight: bold;
+  font-size: 3px;
 }
 
 .chat-window .chat-body .message .message-meta {
@@ -182,7 +184,7 @@ body {
   background: transparent;
   outline: none;
   font-size: 25px;
-  color: lightgray;
+  color: rgb(120, 198, 94);
 }
 
 .chat-window .chat-footer button:hover {
